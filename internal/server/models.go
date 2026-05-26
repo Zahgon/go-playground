@@ -22,9 +22,7 @@ const (
 
 type deprecatedMessage struct{}
 
-func (deprecatedMessage) MarshalJSON() ([]byte, error) {
-	return []byte(deprecationMsg), nil
-}
+func (deprecatedMessage) MarshalJSON() ([]byte, error) { _ = "STUB: not implemented"; return nil, nil }
 
 // DeprecatedHeader is embeddable struct to mark in response that method is deprecated.
 type DeprecatedHeader struct {
@@ -57,10 +55,12 @@ type VersionResponse struct {
 
 // Write writes data to response
 func (r VersionResponse) Write(w http.ResponseWriter) {
-	WriteJSON(w, r)
+	_ = "STUB: not implemented"
+
+	// BuildResponseV1 is build response for legacy API.
+	return
 }
 
-// BuildResponseV1 is build response for legacy API.
 type BuildResponseV1 struct {
 	DeprecatedHeader
 
@@ -110,19 +110,8 @@ type PlaygroundVersions struct {
 }
 
 func (vers *PlaygroundVersions) SetBackendVersion(backend goplay.Backend, version string) {
-	var dst *string
-	switch backend {
-	case goplay.BackendGoCurrent:
-		dst = &vers.GoCurrent
-	case goplay.BackendGoPrev:
-		dst = &vers.GoPrevious
-	case goplay.BackendGoTip:
-		dst = &vers.GoTip
-	default:
-		return
-	}
-
-	*dst = version
+	_ = "STUB: not implemented"
+	return
 }
 
 // VersionsInformation contains Go version for different run targets.

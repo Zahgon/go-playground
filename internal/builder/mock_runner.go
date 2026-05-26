@@ -11,7 +11,6 @@ package builder
 
 import (
 	exec "os/exec"
-	reflect "reflect"
 
 	gomock "go.uber.org/mock/gomock"
 )
@@ -29,26 +28,22 @@ type MockCommandRunnerMockRecorder struct {
 
 // NewMockCommandRunner creates a new mock instance.
 func NewMockCommandRunner(ctrl *gomock.Controller) *MockCommandRunner {
-	mock := &MockCommandRunner{ctrl: ctrl}
-	mock.recorder = &MockCommandRunnerMockRecorder{mock}
-	return mock
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockCommandRunner) EXPECT() *MockCommandRunnerMockRecorder {
-	return m.recorder
+	_ = "STUB: not implemented"
+
+	// RunCommand mocks base method.
+	return nil
 }
 
-// RunCommand mocks base method.
-func (m *MockCommandRunner) RunCommand(arg0 *exec.Cmd) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "RunCommand", arg0)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
+func (m *MockCommandRunner) RunCommand(arg0 *exec.Cmd) error { _ = "STUB: not implemented"; return nil }
 
 // RunCommand indicates an expected call of RunCommand.
 func (mr *MockCommandRunnerMockRecorder) RunCommand(arg0 any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RunCommand", reflect.TypeOf((*MockCommandRunner)(nil).RunCommand), arg0)
+	_ = "STUB: not implemented"
+	return nil
 }

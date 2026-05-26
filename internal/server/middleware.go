@@ -1,9 +1,7 @@
 package server
 
 import (
-	"errors"
 	"net/http"
-	"syscall"
 	"time"
 )
 
@@ -15,46 +13,15 @@ type GuardFn func(r *http.Request) error
 
 // WrapHandler wraps handler
 func WrapHandler(h HandlerFunc, guards ...GuardFn) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		if len(guards) == 0 {
-			for _, guardFn := range guards {
-				if err := guardFn(r); err != nil {
-					handleError(err, w)
-					return
-				}
-			}
-		}
-
-		handleError(h(w, r), w)
-	}
+	_ = "STUB: not implemented"
+	return *new(http.HandlerFunc)
 }
 
 func DeprecatedEndpoint(h HandlerFunc, sunsetDate time.Time) HandlerFunc {
-	sunsetDateStr := sunsetDate.Format(time.RFC1123)
-	return func(w http.ResponseWriter, r *http.Request) error {
-		w.Header().Set("Deprecation", "true")
-		w.Header().Set("Sunset", sunsetDateStr)
-		w.Header().Set("Warning", `299 - "This endpoint is deprecated and will be removed in the next release!"`)
-		return h(w, r)
-	}
+	_ = "STUB: not implemented"
+	return *new(HandlerFunc)
 }
 
-func handleError(err error, w http.ResponseWriter) {
-	if err == nil {
-		return
-	}
+func handleError(err error, w http.ResponseWriter) { _ = "STUB: not implemented"; return }
 
-	httpErr := new(HTTPError)
-	if errors.As(err, &httpErr) {
-		httpErr.WriteResponse(w)
-		return
-	}
-
-	// Ignore broken pipe errors
-	if errors.Is(err, syscall.EPIPE) {
-		return
-	}
-
-	resp := NewErrorResponse(err)
-	resp.Write(w)
-}
+// Ignore broken pipe errors

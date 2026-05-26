@@ -2,8 +2,6 @@ package cmdutil
 
 import (
 	"encoding"
-	"strconv"
-	"strings"
 )
 
 const csvSeparator = ","
@@ -12,34 +10,13 @@ const csvSeparator = ","
 type StringsListValue []string
 
 // String implements flag.Value
-func (s StringsListValue) String() string {
-	if len(s) == 0 {
-		return ""
-	}
-
-	return strconv.Quote(strings.Join(s, csvSeparator))
-}
+func (s StringsListValue) String() string { _ = "STUB: not implemented"; return "" }
 
 // Set implements flag.Value
-func (s *StringsListValue) Set(s2 string) error {
-	vals := strings.Split(s2, csvSeparator)
-	filteredVals := make([]string, 0, len(vals))
-	for _, v := range vals {
-		v = strings.TrimSpace(v)
-		if v == "" {
-			continue
-		}
-		filteredVals = append(filteredVals, v)
-	}
-
-	*s = filteredVals
-	return nil
-}
+func (s *StringsListValue) Set(s2 string) error { _ = "STUB: not implemented"; return nil }
 
 // NewStringsListValue returns a new StringsListValue
-func NewStringsListValue(p *[]string) *StringsListValue {
-	return (*StringsListValue)(p)
-}
+func NewStringsListValue(p *[]string) *StringsListValue { _ = "STUB: not implemented"; return nil }
 
 // TextUnmarshalerValue is flag.Value adapter for values
 // which implement encoding.TextUnmarshaler interface.
@@ -48,25 +25,17 @@ type TextUnmarshalerValue struct {
 }
 
 func NewTextUnmarshalerValue(dest encoding.TextUnmarshaler) *TextUnmarshalerValue {
-	return &TextUnmarshalerValue{dest: dest}
+	_ = "STUB: not implemented"
+	return nil
 }
 
 func (t *TextUnmarshalerValue) WithDefaults(defaultValue string) *TextUnmarshalerValue {
-	_ = t.dest.UnmarshalText([]byte(defaultValue))
-	return t
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Set implements flag.Value
-func (t TextUnmarshalerValue) Set(v string) error {
-	return t.dest.UnmarshalText([]byte(v))
-}
+func (t TextUnmarshalerValue) Set(v string) error { _ = "STUB: not implemented"; return nil }
 
 // String implements flag.Value
-func (t TextUnmarshalerValue) String() string {
-	if m, ok := t.dest.(encoding.TextMarshaler); ok {
-		v, _ := m.MarshalText()
-		return strconv.Quote(string(v))
-	}
-
-	return ""
-}
+func (t TextUnmarshalerValue) String() string { _ = "STUB: not implemented"; return "" }

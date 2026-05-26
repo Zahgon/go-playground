@@ -1,13 +1,8 @@
 package builder
 
 import (
-	"bytes"
 	"context"
-	"errors"
-	"fmt"
 	"os"
-	"syscall"
-	"time"
 
 	"go.uber.org/zap"
 
@@ -60,156 +55,51 @@ type BuildService struct {
 
 // NewBuildService is BuildService constructor
 func NewBuildService(log *zap.Logger, cfg BuildEnvironmentConfig, store storage.StoreProvider) BuildService {
-	return BuildService{
-		log:       log.Named("builder"),
-		config:    cfg,
-		storage:   store,
-		cmdRunner: OSCommandRunner{},
-	}
+	_ = "STUB: not implemented"
+	return *new(BuildService)
 }
 
-func (s BuildService) getEnvironmentVariables() []string {
-	if len(s.config.IncludedEnvironmentVariables) == 0 {
-		return predefinedBuildVars.Join()
-	}
-
-	return s.config.IncludedEnvironmentVariables.Concat(predefinedBuildVars).Join()
-}
+func (s BuildService) getEnvironmentVariables() []string { _ = "STUB: not implemented"; return nil }
 
 // GetArtifact returns artifact by id
 func (s BuildService) GetArtifact(id storage.ArtifactID) (storage.ReadCloseSizer, error) {
-	return s.storage.GetItem(id)
+	_ = "STUB: not implemented"
+	return *new(storage.ReadCloseSizer), nil
 }
 
 // Build compiles Go source to WASM and returns result
 func (s BuildService) Build(ctx context.Context, files map[string][]byte) (*Result, error) {
-	projInfo, err := detectProjectType(files)
-	if err != nil {
-		return nil, err
-	}
-
-	// Go module is required to build project
-	if _, ok := files["go.mod"]; !ok {
-		files["go.mod"] = generateGoMod(defaultGoModName)
-	}
-
-	aid, err := storage.GetArtifactID(files)
-	if err != nil {
-		return nil, err
-	}
-
-	result := &Result{
-		FileName:     aid.Ext(storage.ExtWasm),
-		IsTest:       projInfo.projectType == projectTypeTest,
-		HasBenchmark: projInfo.hasBenchmark,
-		HasFuzz:      projInfo.hasFuzz,
-	}
-
-	isCached, err := s.storage.HasItem(aid)
-	if err != nil {
-		s.log.Error("failed to check cache", zap.Stringer("artifact", aid), zap.Error(err))
-		return nil, err
-	}
-
-	if isCached {
-		// Just return precompiled result if data is cached already
-		s.log.Debug("build cached, returning cached file", zap.Stringer("artifact", aid))
-		return result, nil
-	}
-
-	workspace, err := s.storage.CreateWorkspace(aid, files)
-	if err != nil {
-		if errors.Is(err, syscall.ENOSPC) {
-			// Immediately schedule cleanup job!
-			s.handleNoSpaceLeft()
-		}
-		return nil, err
-	}
-
-	err = s.buildSource(ctx, projInfo, workspace)
-	return result, err
+	_ = "STUB: not implemented"
+	return nil, nil
 }
+
+// Go module is required to build project
+
+// Just return precompiled result if data is cached already
+
+// Immediately schedule cleanup job!
 
 func (s BuildService) buildSource(ctx context.Context, projInfo projectInfo, workspace *storage.Workspace) error {
+	_ = "STUB: not implemented"
 	// Populate go.mod and go.sum files.
-	if err := s.runGoTool(ctx, workspace.WorkDir, "mod", "tidy"); err != nil {
-		return err
-	}
-
-	if projInfo.projectType == projectTypeProgram {
-		return s.runGoTool(ctx, workspace.WorkDir, "build", "-o", workspace.BinaryPath, ".")
-	}
-
-	args := []string{"test"}
-	if projInfo.hasBenchmark {
-		args = append(args, "-bench=.")
-	}
-	if projInfo.hasFuzz {
-		args = append(args, "-fuzz=.")
-	}
-
-	args = append(args, "-c", "-o", workspace.BinaryPath)
-	return s.runGoTool(ctx, workspace.WorkDir, args...)
+	return nil
 }
 
-func (s BuildService) handleNoSpaceLeft() {
-	s.log.Warn("no space left on device, immediate clean triggered!")
-	ctx, cancelFn := context.WithTimeout(context.Background(), time.Minute)
-	defer cancelFn()
-
-	if err := s.storage.Clean(ctx); err != nil {
-		s.log.Error("failed to clear storage", zap.Error(err))
-	}
-	if err := s.Clean(ctx); err != nil {
-		s.log.Error("failed to clear Go cache", zap.Error(err))
-	}
-}
+func (s BuildService) handleNoSpaceLeft() { _ = "STUB: not implemented"; return }
 
 func (s BuildService) runGoTool(ctx context.Context, workDir string, args ...string) error {
-	cmd := newGoToolCommand(ctx, args...)
-	cmd.Dir = workDir
-	cmd.Env = s.getEnvironmentVariables()
-	buff := &bytes.Buffer{}
-	cmd.Stderr = buff
-
-	s.log.Debug(
-		"starting go command", zap.Strings("command", cmd.Args), zap.Strings("env", cmd.Env),
-	)
-
-	if err := s.cmdRunner.RunCommand(cmd); err != nil {
-		s.log.Debug(
-			"build failed",
-			zap.Error(err), zap.Strings("cmd", cmd.Args), zap.Stringer("stderr", buff),
-		)
-
-		return formatBuildError(ctx, err, buff)
-	}
-
+	_ = "STUB: not implemented"
 	return nil
 }
 
 // CleanJobName implements' builder.Cleaner interface.
 func (s BuildService) CleanJobName() string {
-	return "gocache"
+	_ = "STUB: not implemented"
+
+	// Clean implements' builder.Cleaner interface.
+	//
+	// Cleans go build and modules cache.
+	return ""
 }
 
-// Clean implements' builder.Cleaner interface.
-//
-// Cleans go build and modules cache.
-func (s BuildService) Clean(ctx context.Context) error {
-	if s.config.KeepGoModCache {
-		s.log.Info("go mod cache cleanup is disabled, skip")
-		return nil
-	}
-
-	cmd := newGoToolCommand(ctx, "clean", "-modcache", "-cache", "-testcache", "-fuzzcache")
-	cmd.Env = s.getEnvironmentVariables()
-	buff := &bytes.Buffer{}
-	cmd.Stderr = buff
-
-	if err := s.cmdRunner.RunCommand(cmd); err != nil {
-		return fmt.Errorf("process returned error: %s. Stderr: %s", err, buff.String())
-	}
-
-	return nil
-}
+func (s BuildService) Clean(ctx context.Context) error { _ = "STUB: not implemented"; return nil }

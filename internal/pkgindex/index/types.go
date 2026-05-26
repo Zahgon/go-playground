@@ -27,19 +27,9 @@ type Packages struct {
 	Docs  []string `json:"docs"`
 }
 
-func NewPackages(capacity int) Packages {
-	return Packages{
-		Names: make([]string, 0, capacity),
-		Paths: make([]string, 0, capacity),
-		Docs:  make([]string, 0, capacity),
-	}
-}
+func NewPackages(capacity int) Packages { _ = "STUB: not implemented"; return *new(Packages) }
 
-func (pkgs *Packages) Append(pkg PackageInfo) {
-	pkgs.Names = append(pkgs.Names, pkg.Name)
-	pkgs.Paths = append(pkgs.Paths, pkg.ImportPath)
-	pkgs.Docs = append(pkgs.Docs, pkg.Doc)
-}
+func (pkgs *Packages) Append(pkg PackageInfo) { _ = "STUB: not implemented"; return }
 
 // Symbols is a flat representation of Go package symbols.
 type Symbols struct {
@@ -69,29 +59,9 @@ type Symbols struct {
 	Packages []FlatSymbolSource `json:"packages"`
 }
 
-func NewSymbols(capacity int) Symbols {
-	return Symbols{
-		Names:           make([]string, 0, capacity),
-		Docs:            make([]string, 0, capacity),
-		Details:         make([]string, 0, capacity),
-		Signatures:      make([]string, 0, capacity),
-		InsertTexts:     make([]string, 0, capacity),
-		InsertTextRules: make([]lsp.InsertTextFormat, 0, capacity),
-		Kinds:           make([]lsp.CompletionItemKind, 0, capacity),
-		Packages:        make([]FlatSymbolSource, 0, capacity),
-	}
-}
+func NewSymbols(capacity int) Symbols { _ = "STUB: not implemented"; return *new(Symbols) }
 
-func (s *Symbols) Append(src SymbolSource, sym docutil.Symbol) {
-	s.Names = append(s.Names, sym.Label)
-	s.Docs = append(s.Docs, sym.Documentation)
-	s.Details = append(s.Details, sym.Detail)
-	s.Signatures = append(s.Signatures, sym.Signature)
-	s.InsertTexts = append(s.InsertTexts, sym.InsertText)
-	s.InsertTextRules = append(s.InsertTextRules, sym.InsertTextRules)
-	s.Kinds = append(s.Kinds, sym.Kind)
-	s.Packages = append(s.Packages, src.Flatten())
-}
+func (s *Symbols) Append(src SymbolSource, sym docutil.Symbol) { _ = "STUB: not implemented"; return }
 
 // SymbolSource holds information where symbol belongs to.
 type SymbolSource struct {
@@ -103,7 +73,8 @@ type SymbolSource struct {
 }
 
 func (s SymbolSource) Flatten() FlatSymbolSource {
-	return FlatSymbolSource{s.Name, s.Path}
+	_ = "STUB: not implemented"
+	return *new(FlatSymbolSource)
 }
 
 // GoIndexFile contains flat list of all Go packages and symbols (functions, types and values).

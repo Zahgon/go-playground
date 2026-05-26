@@ -2,9 +2,7 @@ package goplay
 
 import (
 	"bytes"
-	"fmt"
 	"io"
-	"strings"
 )
 
 // FileSet is a helper to construct a Go playground request from multiple Go files.
@@ -17,97 +15,32 @@ type FileSet struct {
 	dirty          bool
 }
 
-func NewFileSet(bufSize int) *FileSet {
-	buf := new(bytes.Buffer)
-	buf.Grow(bufSize)
-
-	return &FileSet{
-		buf:            buf,
-		goSourceFiles:  make(map[string][]byte),
-		otherFiles:     make(map[string][]byte),
-		goFileOrder:    make([]string, 0),
-		otherFileOrder: make([]string, 0),
-	}
-}
+func NewFileSet(bufSize int) *FileSet { _ = "STUB: not implemented"; return nil }
 
 // HasGoFiles returns whether a set contains at-least one ".go" file.
-func (f *FileSet) HasGoFiles() bool {
-	return len(f.goSourceFiles) > 0
-}
+func (f *FileSet) HasGoFiles() bool { _ = "STUB: not implemented"; return false }
 
 // Add adds a file to the buffer.
-func (f *FileSet) Add(name string, src []byte) error {
-	if len(src) == 0 {
-		return fmt.Errorf("file %q is empty", name)
-	}
+func (f *FileSet) Add(name string, src []byte) error { _ = "STUB: not implemented"; return nil }
 
-	name = strings.TrimSpace(name)
-	isGoFile, err := ValidateFilePath(name, true)
-	if err != nil {
-		return err
-	}
+func txtarAppendFile(buf *bytes.Buffer, fname string, data []byte) {
+	_ = "STUB: not implemented"
+	return
+}
 
-	var dstMap map[string][]byte
-	var dstOrder *[]string
-	if isGoFile {
-		dstMap = f.goSourceFiles
-		dstOrder = &f.goFileOrder
-	} else {
-		dstMap = f.otherFiles
-		dstOrder = &f.otherFileOrder
-	}
+// If contents doesn't end with line break - add it.
+// Required, as line break is txtar file separator.
 
-	if _, ok := dstMap[name]; ok {
-		return fmt.Errorf("duplicate file name %q", name)
-	}
+func (f *FileSet) buildBuf() *bytes.Buffer {
+	_ = "STUB: not implemented"
 
-	dstMap[name] = src
-	*dstOrder = append(*dstOrder, name)
-	f.buf.Reset()
-	f.dirty = true
+	// Skip if buffer is populated.
 	return nil
 }
 
-func txtarAppendFile(buf *bytes.Buffer, fname string, data []byte) {
-	buf.WriteString("-- ")
-	buf.WriteString(fname)
-	buf.WriteString(" --\n")
-	buf.Write(data)
+// First, write Go source files and then other files.
+// Upstream might misbehave if non-Go files come first.
 
-	// If contents doesn't end with line break - add it.
-	// Required, as line break is txtar file separator.
-	hasTrailingNewline := len(data) == 0 || data[len(data)-1] == '\n'
-	if !hasTrailingNewline {
-		buf.WriteByte('\n')
-	}
-}
+func (f *FileSet) Bytes() []byte { _ = "STUB: not implemented"; return nil }
 
-func (f *FileSet) buildBuf() *bytes.Buffer {
-	if !f.dirty {
-		// Skip if buffer is populated.
-		return f.buf
-	}
-
-	// First, write Go source files and then other files.
-	// Upstream might misbehave if non-Go files come first.
-	for _, fname := range f.goFileOrder {
-		src := f.goSourceFiles[fname]
-		txtarAppendFile(f.buf, fname, src)
-	}
-
-	for _, fname := range f.otherFileOrder {
-		src := f.otherFiles[fname]
-		txtarAppendFile(f.buf, fname, src)
-	}
-
-	f.dirty = false
-	return f.buf
-}
-
-func (f *FileSet) Bytes() []byte {
-	return f.buildBuf().Bytes()
-}
-
-func (f *FileSet) Reader() io.Reader {
-	return f.buildBuf()
-}
+func (f *FileSet) Reader() io.Reader { _ = "STUB: not implemented"; return *new(io.Reader) }

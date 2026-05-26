@@ -12,14 +12,10 @@ type CompileFailedError struct {
 
 // Error implements error
 func (c CompileFailedError) Error() string {
-	return c.msg
+	_ = "STUB: not implemented"
+
+	// IsCompileError checks if error is CompileFailedError
+	return ""
 }
 
-// IsCompileError checks if error is CompileFailedError
-func IsCompileError(err error) bool {
-	if err == nil {
-		return false
-	}
-	_, ok := err.(CompileFailedError)
-	return ok
-}
+func IsCompileError(err error) bool { _ = "STUB: not implemented"; return false }

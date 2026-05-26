@@ -1,8 +1,6 @@
 package docutil
 
 import (
-	"go/token"
-
 	"github.com/hashicorp/go-set/v3"
 )
 
@@ -15,45 +13,21 @@ type ignoreList struct {
 	m *set.Set[string]
 }
 
-func (f ignoreList) Ignore(typeName string) bool {
-	return f.m.Contains(typeName)
-}
+func (f ignoreList) Ignore(typeName string) bool { _ = "STUB: not implemented"; return false }
 
 // NewIgnoreList creates a filter with a list of ignored symbols.
-func NewIgnoreList(names ...string) Filter {
-	return ignoreList{
-		m: set.From(names),
-	}
-}
+func NewIgnoreList(names ...string) Filter { _ = "STUB: not implemented"; return *new(Filter) }
 
 // UnexportedFilter filters private symbols
 type UnexportedFilter struct{}
 
-func (UnexportedFilter) Ignore(typeName string) bool {
-	return !token.IsExported(typeName)
-}
+func (UnexportedFilter) Ignore(typeName string) bool { _ = "STUB: not implemented"; return false }
 
 type composedFilter []Filter
 
-func (filters composedFilter) Ignore(typeName string) bool {
-	for _, f := range filters {
-		if f.Ignore(typeName) {
-			return true
-		}
-	}
-
-	return false
-}
+func (filters composedFilter) Ignore(typeName string) bool { _ = "STUB: not implemented"; return false }
 
 // ComposeFilters allows composing multiple symbol filters into one.
-func ComposeFilters(filters ...Filter) Filter {
-	return composedFilter(filters)
-}
+func ComposeFilters(filters ...Filter) Filter { _ = "STUB: not implemented"; return *new(Filter) }
 
-func filterOrDefault(f Filter) Filter {
-	if f != nil {
-		return f
-	}
-
-	return UnexportedFilter{}
-}
+func filterOrDefault(f Filter) Filter { _ = "STUB: not implemented"; return *new(Filter) }

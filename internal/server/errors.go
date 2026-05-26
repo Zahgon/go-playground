@@ -1,7 +1,6 @@
 package server
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/x1unix/go-playground/pkg/goplay"
@@ -21,31 +20,25 @@ type HTTPError struct {
 }
 
 // Error implements error
-func (err *HTTPError) Error() string {
-	return fmt.Sprintf("%s: %s", http.StatusText(err.code), err.parent)
-}
+func (err *HTTPError) Error() string { _ = "STUB: not implemented"; return "" }
 
 // Unwrap implements error
 func (err *HTTPError) Unwrap() error {
-	return err.parent
+	_ = "STUB: not implemented"
+
+	// WriteResponse writes error to response
+	return nil
 }
 
-// WriteResponse writes error to response
-func (err *HTTPError) WriteResponse(rw http.ResponseWriter) {
-	resp := ErrorResponse{code: err.code, Error: err.parent.Error()}
-	resp.Write(rw)
-}
+func (err *HTTPError) WriteResponse(rw http.ResponseWriter) { _ = "STUB: not implemented"; return }
 
 // NewHTTPError constructs a new error
-func NewHTTPError(code int, err error) *HTTPError {
-	return &HTTPError{code: code, parent: err}
-}
+func NewHTTPError(code int, err error) *HTTPError { _ = "STUB: not implemented"; return nil }
 
 // Errorf returns new formatted error
 func Errorf(code int, format string, args ...interface{}) *HTTPError {
-	return NewHTTPError(code, fmt.Errorf(format, args...))
+	_ = "STUB: not implemented"
+	return nil
 }
 
-func NewBadRequestError(err error) *HTTPError {
-	return NewHTTPError(http.StatusBadRequest, err)
-}
+func NewBadRequestError(err error) *HTTPError { _ = "STUB: not implemented"; return nil }

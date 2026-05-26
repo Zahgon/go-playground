@@ -9,23 +9,13 @@ type SlicePool[T any] struct {
 	pool    sync.Pool
 }
 
-func NewSlicePool[T any](initCap int) *SlicePool[T] {
-	return &SlicePool[T]{
-		initCap: initCap,
-		pool: sync.Pool{
-			New: func() any {
-				return make([]T, 0, initCap)
-			},
-		},
-	}
-}
+func NewSlicePool[T any](initCap int) *SlicePool[T] { _ = "STUB: not implemented"; return nil }
 
-func (p *SlicePool[T]) Get() []T {
-	return p.pool.Get().([]T)
-}
+func (p *SlicePool[T]) Get() []T { _ = "STUB: not implemented"; return nil }
 
 func (p *SlicePool[T]) Put(v []T) {
-	v = v[:0]
+	_ = "STUB: not implemented"
+
 	//nolint:staticcheck
-	p.pool.Put(v)
+	return
 }

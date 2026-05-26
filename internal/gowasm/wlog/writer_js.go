@@ -1,7 +1,6 @@
 package wlog
 
 import (
-	"fmt"
 	"io"
 )
 
@@ -25,17 +24,6 @@ type logWriter struct {
 	level uint8
 }
 
-func newLogWriter(level uint8) logWriter {
-	return logWriter{level: level}
-}
+func newLogWriter(level uint8) logWriter { _ = "STUB: not implemented"; return *new(logWriter) }
 
-func (w logWriter) Write(data []byte) (n int, err error) {
-	defer func() {
-		if r := recover(); r != nil {
-			err = fmt.Errorf("logWrite: %s", r)
-		}
-	}()
-
-	logWrite(w.level, data)
-	return len(data), nil
-}
+func (w logWriter) Write(data []byte) (n int, err error) { _ = "STUB: not implemented"; return 0, nil }

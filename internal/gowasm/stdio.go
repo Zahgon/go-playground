@@ -1,7 +1,6 @@
 package gowasm
 
 import (
-	"fmt"
 	"syscall"
 )
 
@@ -15,16 +14,11 @@ type consoleWriter struct {
 }
 
 func newConsoleWriter(fdId int) consoleWriter {
-	return consoleWriter{fdId: fdId}
+	_ = "STUB: not implemented"
+	return *new(consoleWriter)
 }
 
 func (w consoleWriter) Write(data []byte) (n int, err error) {
-	defer func() {
-		if r := recover(); r != nil {
-			err = fmt.Errorf("logWrite: %s", r)
-		}
-	}()
-
-	wasmConsoleWrite(w.fdId, data)
-	return len(data), nil
+	_ = "STUB: not implemented"
+	return 0, nil
 }

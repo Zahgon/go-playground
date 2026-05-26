@@ -1,13 +1,7 @@
 package goplay
 
 import (
-	"bufio"
-	"errors"
-	"fmt"
-	"path"
 	"regexp"
-	"slices"
-	"strings"
 )
 
 var delimiterRegEx = regexp.MustCompile(`(?i)^-- (.*) --$`)
@@ -18,56 +12,20 @@ var supportedFileExtensions = []string{
 }
 
 func cleanPath(pathname string) string {
+	_ = "STUB: not implemented"
 	// path.Clean don't clean dots for non-abs paths
-	s := path.Clean("/" + pathname)
-	return strings.TrimPrefix(s, "/")
+	return ""
 }
 
 // ValidateFilePath validates a given file path contains a supported file.
 //
 // Filters out files that are not go.mod, *.go, *.txt or *.json files.
 func ValidateFilePath(name string, strict bool) (isGoFile bool, err error) {
-	name = strings.TrimSpace(name)
-	if name == "" {
-		return false, errors.New("file name cannot be empty")
-	}
-
-	if strict {
-		if strings.HasPrefix(name, "/") {
-			return false, errors.New("file path cannot start with a slash")
-		}
-
-		if cleanPath(name) != name {
-			return false, fmt.Errorf("invalid file name %q", name)
-		}
-	}
-
-	basename := path.Base(name)
-	if basename == "go.mod" {
-		return false, nil
-	}
-
-	ext := path.Ext(basename)
-	if ext == ".go" {
-		return true, nil
-	}
-
-	if slices.Contains(supportedFileExtensions, ext) {
-		return false, nil
-	}
-
-	return false, fmt.Errorf("invalid file name %q", name)
+	_ = "STUB: not implemented"
+	return false, nil
 }
 
-func isSeparatorLine(line string) (string, bool) {
-	matches := delimiterRegEx.FindAllStringSubmatch(line, 1)
-	ok := len(matches) == 1
-	if !ok {
-		return "", false
-	}
-
-	return matches[0][1], true
-}
+func isSeparatorLine(line string) (string, bool) { _ = "STUB: not implemented"; return "", false }
 
 type SplitFileOpts struct {
 	// DefaultFileName is a file name to use of source string doesn't contain any file name.
@@ -96,63 +54,12 @@ type SplitFileOpts struct {
 //		...
 //	}
 func SplitFileSet(src string, opts SplitFileOpts) (map[string]string, error) {
-	files := make(map[string]string)
-
-	currentFileName := opts.DefaultFileName
-	if currentFileName == "" {
-		currentFileName = "main.go"
-	}
-
-	lineBuffer := strings.Builder{}
-	chunkCommitted := true
-	isFirstLine := true
-	scanner := bufio.NewScanner(strings.NewReader(src))
-	for scanner.Scan() {
-		line := scanner.Text()
-		fileName, isFileLine := isSeparatorLine(line)
-		if !isFileLine {
-			isFirstLine = false
-			if !chunkCommitted {
-				lineBuffer.WriteRune('\n')
-			}
-			chunkCommitted = false
-			lineBuffer.WriteString(line)
-			continue
-		}
-
-		_, err := ValidateFilePath(fileName, opts.CheckPaths)
-		if err != nil {
-			return nil, err
-		}
-
-		// Skip commit if string starts with file delimiter
-		if isFirstLine {
-			currentFileName = fileName
-			continue
-		}
-
-		// Commit previous chunk
-		chunkCommitted = true
-		files[currentFileName] = lineBuffer.String()
-		lineBuffer.Reset()
-
-		isFirstLine = false
-		currentFileName = fileName
-		if _, ok := files[fileName]; ok {
-			return nil, fmt.Errorf("duplicate file entry: %q", fileName)
-		}
-	}
-	if err := scanner.Err(); err != nil {
-		return nil, err
-	}
-
-	if !chunkCommitted {
-		// HACK: preserve trailing newline
-		if strings.HasSuffix(src, "\n") {
-			lineBuffer.WriteRune('\n')
-		}
-		files[currentFileName] = lineBuffer.String()
-	}
-
-	return files, nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
+
+// Skip commit if string starts with file delimiter
+
+// Commit previous chunk
+
+// HACK: preserve trailing newline

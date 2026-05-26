@@ -49,49 +49,15 @@ type UnionString[T any] struct {
 }
 
 // SetString replaces union value with a raw string.
-func (u *UnionString[T]) SetString(str string) {
-	*u = UnionString[T]{
-		String: str,
-	}
-}
+func (u *UnionString[T]) SetString(str string) { _ = "STUB: not implemented"; return }
 
 // SetValue replaces union value with a object.
-func (u *UnionString[T]) SetValue(v *T) {
-	*u = UnionString[T]{
-		Value: v,
-	}
-}
+func (u *UnionString[T]) SetValue(v *T) { _ = "STUB: not implemented"; return }
 
 // MarshalJSON implements json.Marshaler interface.
-func (u UnionString[T]) MarshalJSON() ([]byte, error) {
-	if u.String != "" {
-		return json.Marshal(u.String)
-	}
-
-	if u.Value != nil {
-		return json.Marshal(u.Value)
-	}
-
-	return []byte("null"), nil
-}
+func (u UnionString[T]) MarshalJSON() ([]byte, error) { _ = "STUB: not implemented"; return nil, nil }
 
 // UnmarshalJSON implements json.Unmarshaler interface.
-func (u *UnionString[T]) UnmarshalJSON(data []byte) error {
-	if len(data) == 0 {
-		return nil
-	}
+func (u *UnionString[T]) UnmarshalJSON(data []byte) error { _ = "STUB: not implemented"; return nil }
 
-	var dst any
-	switch data[0] {
-	case '"', '\'':
-		dst = &u.String
-	case 'n', 'u':
-		// null or undefined
-		return nil
-	default:
-		u.Value = new(T)
-		dst = u.Value
-	}
-
-	return json.Unmarshal(data, dst)
-}
+// null or undefined

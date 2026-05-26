@@ -2,10 +2,7 @@
 package wlog
 
 import (
-	"fmt"
 	"log"
-	"os"
-	"strconv"
 )
 
 var (
@@ -20,90 +17,28 @@ var (
 
 const callerSkip = 2
 
-func Debugf(format string, v ...any) {
-	if !debugLogEnabled {
-		return
-	}
+func Debugf(format string, v ...any) { _ = "STUB: not implemented"; return }
 
-	_ = debugLog.Output(callerSkip, fmt.Sprintf(format, v...))
-}
+func Debugln(v ...any) { _ = "STUB: not implemented"; return }
 
-func Debugln(v ...any) {
-	if !debugLogEnabled {
-		return
-	}
+func Debug(v ...any) { _ = "STUB: not implemented"; return }
 
-	_ = debugLog.Output(callerSkip, fmt.Sprintln(v...))
-}
+func Printf(format string, v ...any) { _ = "STUB: not implemented"; return }
 
-func Debug(v ...any) {
-	if !debugLogEnabled {
-		return
-	}
+func Println(v ...any) { _ = "STUB: not implemented"; return }
 
-	_ = debugLog.Output(callerSkip, fmt.Sprint(v...))
-}
+func Print(v ...any) { _ = "STUB: not implemented"; return }
 
-func Printf(format string, v ...any) {
-	_ = stdLog.Output(callerSkip, fmt.Sprintf(format, v...))
-}
+func Fatal(v ...any) { _ = "STUB: not implemented"; return }
 
-func Println(v ...any) {
-	_ = stdLog.Output(callerSkip, fmt.Sprintln(v...))
-}
+func Fatalln(v ...any) { _ = "STUB: not implemented"; return }
 
-func Print(v ...any) {
-	_ = stdLog.Output(callerSkip, fmt.Sprint(v...))
-}
+func Fatalf(format string, v ...any) { _ = "STUB: not implemented"; return }
 
-func Fatal(v ...any) {
-	_ = stdLog.Output(callerSkip, fmt.Sprint(v...))
-	os.Exit(1)
-}
+func Panic(v ...any) { _ = "STUB: not implemented"; return }
 
-func Fatalln(v ...any) {
-	_ = stdLog.Output(callerSkip, fmt.Sprintln(v...))
-	os.Exit(1)
-}
+func Panicln(v ...any) { _ = "STUB: not implemented"; return }
 
-func Fatalf(format string, v ...any) {
-	_ = stdLog.Output(callerSkip, fmt.Sprintf(format, v...))
-	os.Exit(1)
-}
+func Panicf(format string, v ...any) { _ = "STUB: not implemented"; return }
 
-func Panic(v ...any) {
-	msg := fmt.Sprint(v...)
-	_ = stdLog.Output(callerSkip, msg)
-	panic(msg)
-}
-
-func Panicln(v ...any) {
-	msg := fmt.Sprintln(v...)
-	_ = stdLog.Output(callerSkip, msg)
-	panic(msg)
-}
-
-func Panicf(format string, v ...any) {
-	msg := fmt.Sprintf(format, v...)
-	_ = stdLog.Output(callerSkip, msg)
-	panic(msg)
-}
-
-func checkDebugLogParam() bool {
-	val, ok := os.LookupEnv("WASM_DEBUG")
-	if !ok {
-		return false
-	}
-
-	if val == "" {
-		return false
-	}
-
-	isEnabled, err := strconv.ParseBool(val)
-	if err != nil {
-		Printf("Warning: failed to parse WASM_DEBUG environment variable: %s", err)
-		return false
-	}
-
-	return isEnabled
-}
+func checkDebugLogParam() bool { _ = "STUB: not implemented"; return false }

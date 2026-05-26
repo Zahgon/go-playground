@@ -1,17 +1,12 @@
 package server
 
 import (
-	"context"
-	"errors"
-	"io"
 	"net/http"
-	"strconv"
 	"time"
 
 	"github.com/gorilla/mux"
 	"github.com/x1unix/go-playground/internal/announcements"
 	"github.com/x1unix/go-playground/internal/builder"
-	"github.com/x1unix/go-playground/internal/builder/storage"
 	"github.com/x1unix/go-playground/internal/server/backendinfo"
 	"github.com/x1unix/go-playground/pkg/goplay"
 	"go.uber.org/zap"
@@ -45,89 +40,32 @@ type ServiceConfig struct {
 
 // NewAPIv1Handler is APIv1Handler constructor
 func NewAPIv1Handler(cfg ServiceConfig, client *goplay.Client, builder builder.BuildService, versionProvider backendinfo.BackendVersionProvider) *APIv1Handler {
-	return &APIv1Handler{
-		config:          cfg,
-		compiler:        builder,
-		client:          client,
-		log:             zap.S().Named("api.v1"),
-		versionProvider: versionProvider,
-		limiter:         rate.NewLimiter(rate.Every(frameTime), compileRequestsPerFrame),
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Mount mounts service on route
-func (s *APIv1Handler) Mount(r *mux.Router) {
-	r.Path("/version").
-		HandlerFunc(WrapHandler(s.HandleGetVersion))
-	r.Path("/backends/info").Methods(http.MethodGet).
-		HandlerFunc(WrapHandler(s.HandleGetVersions))
-	r.Path("/announcement").Methods(http.MethodGet).
-		HandlerFunc(WrapHandler(s.HandleGetAnnouncement))
-	r.Path("/artifacts/{artifactId:[a-fA-F0-9]+}.wasm").Methods(http.MethodGet).
-		HandlerFunc(WrapHandler(s.HandleArtifactRequest))
-}
+func (s *APIv1Handler) Mount(r *mux.Router) { _ = "STUB: not implemented"; return }
 
 // HandleGetVersion handles /api/version
 func (s *APIv1Handler) HandleGetVersion(w http.ResponseWriter, _ *http.Request) error {
-	WriteJSON(w, VersionResponse{Version: s.config.Version, APIVersion: "2"})
+	_ = "STUB: not implemented"
 	return nil
 }
 
 // HandleGetAnnouncement returns service announcement banner contents.
 func (s *APIv1Handler) HandleGetAnnouncement(w http.ResponseWriter, r *http.Request) error {
-	WriteJSON(w, GetAnnouncementResponse{Message: s.config.Announcement})
+	_ = "STUB: not implemented"
 	return nil
 }
 
 func (s *APIv1Handler) HandleGetVersions(w http.ResponseWriter, r *http.Request) error {
-	versions, err := s.versionProvider.GetRemoteVersions(r.Context())
-	if err != nil {
-		if errors.Is(err, context.Canceled) {
-			return nil
-		}
-
-		return err
-	}
-
-	rsp := VersionsInformation{
-		WebAssembly: s.versionProvider.ServerVersion(),
-		Playground: &PlaygroundVersions{
-			GoCurrent:  versions.CurrentStable,
-			GoPrevious: versions.PreviousStable,
-			GoTip:      versions.Nightly,
-		},
-	}
-
-	WriteJSON(w, rsp)
+	_ = "STUB: not implemented"
 	return nil
 }
 
 // HandleArtifactRequest handles WASM build artifact request
 func (s *APIv1Handler) HandleArtifactRequest(w http.ResponseWriter, r *http.Request) error {
-	vars := mux.Vars(r)
-	artifactId := storage.ArtifactID(vars[artifactParamVal])
-	data, err := s.compiler.GetArtifact(artifactId)
-	if err != nil {
-		if errors.Is(err, storage.ErrNotExists) {
-			return Errorf(http.StatusNotFound, "artifact not found")
-		}
-
-		return err
-	}
-
-	contentLength := strconv.FormatInt(data.Size(), 10)
-	w.Header().Set("Content-Type", wasmMimeType)
-	w.Header().Set("Content-Length", contentLength)
-	w.Header().Set(rawContentLengthHeader, contentLength)
-
-	defer data.Close()
-	if _, err := io.Copy(w, data); err != nil {
-		s.log.Errorw("failed to send artifact",
-			"artifactID", artifactId,
-			"err", err,
-		)
-		return err
-	}
-
+	_ = "STUB: not implemented"
 	return nil
 }

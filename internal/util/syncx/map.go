@@ -8,63 +8,26 @@ type Set[T comparable] struct {
 	m *sync.Map
 }
 
-func NewSet[T comparable]() Set[T] {
-	return Set[T]{
-		m: &sync.Map{},
-	}
-}
+func NewSet[T comparable]() Set[T] { _ = "STUB: not implemented"; return nil }
 
-func (s Set[T]) Delete(item T) {
-	s.m.Delete(item)
-}
+func (s Set[T]) Delete(item T) { _ = "STUB: not implemented"; return }
 
-func (s Set[T]) Has(item T) bool {
-	_, ok := s.m.Load(item)
-	return ok
-}
+func (s Set[T]) Has(item T) bool { _ = "STUB: not implemented"; return false }
 
-func (s Set[T]) Add(item T) {
-	s.m.Store(item, void{})
-}
+func (s Set[T]) Add(item T) { _ = "STUB: not implemented"; return }
 
 type Map[K comparable, V any] struct {
 	m *sync.Map
 }
 
-func NewMap[K comparable, V any]() Map[K, V] {
-	return Map[K, V]{
-		m: new(sync.Map),
-	}
-}
+func NewMap[K comparable, V any]() Map[K, V] { _ = "STUB: not implemented"; return nil }
 
-func (m Map[K, V]) Keys() []K {
-	var keys []K
-	m.m.Range(func(key, _ any) bool {
-		keys = append(keys, key.(K))
-		return true
-	})
-	return keys
-}
+func (m Map[K, V]) Keys() []K { _ = "STUB: not implemented"; return nil }
 
-func (m Map[K, V]) Put(key K, val V) {
-	m.m.Store(key, val)
-}
+func (m Map[K, V]) Put(key K, val V) { _ = "STUB: not implemented"; return }
 
-func (m Map[K, V]) Delete(item K) {
-	m.m.Delete(item)
-}
+func (m Map[K, V]) Delete(item K) { _ = "STUB: not implemented"; return }
 
-func (m Map[K, V]) Has(item K) bool {
-	_, ok := m.m.Load(item)
-	return ok
-}
+func (m Map[K, V]) Has(item K) bool { _ = "STUB: not implemented"; return false }
 
-func (m Map[K, V]) Get(item K) (res V, ok bool) {
-	v, ok := m.m.Load(item)
-	if !ok {
-		return res, false
-	}
-
-	res, ok = v.(V)
-	return res, ok
-}
+func (m Map[K, V]) Get(item K) (res V, ok bool) { _ = "STUB: not implemented"; return *new(V), false }

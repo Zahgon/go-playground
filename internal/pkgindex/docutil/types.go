@@ -1,8 +1,6 @@
 package docutil
 
 import (
-	"strings"
-
 	"typefox.dev/lsp"
 )
 
@@ -20,9 +18,7 @@ type Symbol struct {
 }
 
 // Compare compares two symbol for sorting.
-func (sym Symbol) Compare(b Symbol) int {
-	return strings.Compare(sym.Label, b.Label)
-}
+func (sym Symbol) Compare(b Symbol) int { _ = "STUB: not implemented"; return 0 }
 
 // Collector accumulates symbols collected during AST traversal.
 //
@@ -37,6 +33,4 @@ type Collector interface {
 // If f is a function with the appropriate signature, CollectorFunc(f) is a Collector that calls f.
 type CollectorFunc func(sym Symbol)
 
-func (fn CollectorFunc) CollectSymbol(sym Symbol) {
-	fn(sym)
-}
+func (fn CollectorFunc) CollectSymbol(sym Symbol) { _ = "STUB: not implemented"; return }

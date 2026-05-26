@@ -1,15 +1,6 @@
 package index
 
 import (
-	"fmt"
-	"log"
-	"os"
-	"path"
-	"path/filepath"
-	"runtime"
-	"strings"
-
-	"github.com/x1unix/go-playground/internal/pkgindex/docutil"
 	"github.com/x1unix/go-playground/internal/pkgindex/imports"
 )
 
@@ -32,108 +23,25 @@ type scanEntry struct {
 	importPath string
 }
 
-func ScanRoot(goRoot string) (*GoIndexFile, error) {
-	goVersion, err := imports.CheckVersionFile(goRoot)
-	if err != nil {
-		log.Printf("Warning: can't read version file, using fallback. Error: %s", err)
-		goVersion = strings.TrimPrefix(runtime.Version(), "go")
-	}
+func ScanRoot(goRoot string) (*GoIndexFile, error) { _ = "STUB: not implemented"; return nil, nil }
 
-	// populate queue with root packages
-	rootDir := filepath.Join(goRoot, "src")
-	queue := imports.NewQueue[scanEntry](queueSize)
-	if err := enqueueRootEntries(rootDir, "", queue); err != nil {
-		return nil, err
-	}
+// populate queue with root packages
 
-	packages := NewPackages(pkgBuffSize)
-	symbols := NewSymbols(symBuffSize)
+// Edge case: Apparently GOROOT has vendoring for its own packages.
 
-	for queue.Occupied() {
-		v, ok := queue.Pop()
-		if !ok {
-			break
-		}
-
-		// Edge case: Apparently GOROOT has vendoring for its own packages.
-		if v.isVendor {
-			if err := enqueueRootEntries(v.path, "", queue); err != nil {
-				return nil, err
-			}
-
-			continue
-		}
-
-		result, err := traverseScanEntry(v, queue, symbols.Append)
-		if err != nil {
-			return nil, fmt.Errorf("error while scanning package %q: %w", v.importPath, err)
-		}
-
-		if result == nil {
-			continue
-		}
-
-		// Edge case: "builtin" package exists only for documentation purposes
-		// and not importable.
-		// Also skip empty packages (usually part of vendor path).
-		if result.pkgInfo.ImportPath != docutil.BuiltinPackage && result.symbolsCount > 0 {
-			packages.Append(result.pkgInfo)
-		} else if Debug {
-			log.Printf("Skip pkg: %s", result.pkgInfo.ImportPath)
-		}
-	}
-
-	return &GoIndexFile{
-		Version:  GoIndexFileVersion,
-		Go:       goVersion,
-		Packages: packages,
-		Symbols:  symbols,
-	}, nil
-}
+// Edge case: "builtin" package exists only for documentation purposes
+// and not importable.
+// Also skip empty packages (usually part of vendor path).
 
 func enqueueRootEntries(rootDir string, parentImportPath string, queue *imports.Queue[scanEntry]) error {
-	entries, err := os.ReadDir(rootDir)
-	if err != nil {
-		return fmt.Errorf("can't read dir %q: %w", rootDir, err)
-	}
-
-	for _, entry := range entries {
-		if !entry.IsDir() || isDirIgnored(entry.Name()) || isImportPathIgnored(entry.Name()) {
-			continue
-		}
-
-		absPath := filepath.Join(rootDir, entry.Name())
-		if imports.IsVendorDir(entry.Name()) {
-			queue.Add(scanEntry{
-				isVendor: true,
-				path:     absPath,
-			})
-			continue
-		}
-
-		importPath := entry.Name()
-		if parentImportPath != "" {
-			importPath = path.Join(parentImportPath, importPath)
-		}
-		queue.Add(scanEntry{
-			path:       absPath,
-			importPath: importPath,
-		})
-	}
-
+	_ = "STUB: not implemented"
 	return nil
 }
 
-func isDirIgnored(basename string) bool {
-	switch basename {
-	case "cmd", "internal", "testdata", "_asm":
-		return true
-	}
-
-	return false
-}
+func isDirIgnored(basename string) bool { _ = "STUB: not implemented"; return false }
 
 func isImportPathIgnored(importPath string) bool {
+	_ = "STUB: not implemented"
 	// Arena experiment was rejected and removed
-	return importPath == "arena"
+	return false
 }

@@ -17,38 +17,18 @@ type TTLValue[T any] struct {
 
 // NewTTLValue constructs a new TTLValue
 func NewTTLValue[T any](ttl time.Duration, initialValue T) *TTLValue[T] {
-	return &TTLValue[T]{
-		ttl:   ttl,
-		value: initialValue,
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Get returns stored value.
 //
 // Returns default empty value if TTL expired.
-func (v *TTLValue[T]) Get() (result T) {
-	v.lock.RLock()
-	defer v.lock.RUnlock()
+func (v *TTLValue[T]) Get() (result T) { _ = "STUB: not implemented"; return *new(T) }
 
-	// Handle uninitialized value
-	if v.createdAt.IsZero() {
-		return v.value
-	}
+// Handle uninitialized value
 
-	passed := time.Since(v.createdAt)
-	if passed >= v.ttl {
-		// Return empty value on expire
-		return result
-	}
-
-	return v.value
-}
+// Return empty value on expire
 
 // Set sets a new value and updates expiration time.
-func (v *TTLValue[T]) Set(newValue T) {
-	v.lock.Lock()
-	defer v.lock.Unlock()
-
-	v.createdAt = time.Now()
-	v.value = newValue
-}
+func (v *TTLValue[T]) Set(newValue T) { _ = "STUB: not implemented"; return }

@@ -1,8 +1,6 @@
 package goplay
 
 import (
-	"errors"
-	"fmt"
 	"net/http"
 )
 
@@ -11,31 +9,9 @@ type HTTPError struct {
 	Status     string
 }
 
-func NewHTTPError(rsp *http.Response) *HTTPError {
-	return &HTTPError{
-		Status:     rsp.Status,
-		StatusCode: rsp.StatusCode,
-	}
-}
+func NewHTTPError(rsp *http.Response) *HTTPError { _ = "STUB: not implemented"; return nil }
 
-func (err HTTPError) Error() string {
-	return fmt.Sprintf("bad response from playground server: %s", err.Status)
-}
+func (err HTTPError) Error() string { _ = "STUB: not implemented"; return "" }
 
 // IsHTTPError checks if passed error is HTTPError.
-func IsHTTPError(err error) (*HTTPError, bool) {
-	if err == nil {
-		return nil, false
-	}
-
-	if e, ok := err.(*HTTPError); ok {
-		return e, true
-	}
-
-	httpErr := new(HTTPError)
-	if errors.As(err, httpErr) {
-		return httpErr, true
-	}
-
-	return nil, false
-}
+func IsHTTPError(err error) (*HTTPError, bool) { _ = "STUB: not implemented"; return nil, false }

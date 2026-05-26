@@ -3,7 +3,6 @@ package docutil
 import (
 	"go/ast"
 	"go/token"
-	"strings"
 
 	"typefox.dev/lsp"
 )
@@ -12,56 +11,26 @@ import (
 //
 // Function documentation is generated in Markdown format.
 func SymbolFromFunc(fset *token.FileSet, fn *ast.FuncDecl, snippetFormat lsp.InsertTextFormat) (item Symbol, err error) {
-	isSnippet := snippetFormat == lsp.SnippetTextFormat
-	item = Symbol{
-		Label:           fn.Name.String(),
-		Kind:            lsp.FunctionCompletion,
-		InsertTextRules: snippetFormat,
-		InsertText:      buildFuncInsertStatement(fn, isSnippet),
-		Documentation:   string(FormatCommentGroup(fn.Doc)),
-	}
-
-	item.Detail, err = PrintFuncAnonymous(fset, fn)
-	if err != nil {
-		return item, err
-	}
-
-	item.Signature, err = PrintFuncPrototype(fset, fn)
-	if err != nil {
-		return item, err
-	}
-
-	return item, nil
+	_ = "STUB: not implemented"
+	return *new(Symbol), nil
 }
 
 func buildFuncInsertStatement(decl *ast.FuncDecl, asSnippet bool) string {
-	if !asSnippet {
-		return decl.Name.String() + "()"
-	}
-
-	// snippet offsets start at 1
-	offset := 1
-
-	typ := decl.Type
-	sb := new(strings.Builder)
-	sb.Grow(defaultStringBuffSize)
-	sb.WriteString(decl.Name.String())
-	offset = WriteTypeParams(sb, offset, typ.TypeParams)
-	sb.WriteString("(")
-	WriteParamsList(sb, offset, typ.Params)
-	sb.WriteString(")")
-	return sb.String()
+	_ = "STUB: not implemented"
+	return ""
 }
+
+// snippet offsets start at 1
 
 // PrintFuncPrototype returns function string representation without its body.
 func PrintFuncPrototype(fset *token.FileSet, decl *ast.FuncDecl) (string, error) {
+	_ = "STUB: not implemented"
 	// drop body from func
-	fn := *decl
-	fn.Body = nil
-	return PrintDecl(fset, &fn)
+	return "", nil
 }
 
 // PrintFuncAnonymous similar to PrintFuncPrototype, but omits function name.
 func PrintFuncAnonymous(fset *token.FileSet, decl *ast.FuncDecl) (string, error) {
-	return PrintDecl(fset, decl.Type)
+	_ = "STUB: not implemented"
+	return "", nil
 }

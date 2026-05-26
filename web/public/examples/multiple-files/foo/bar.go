@@ -1,9 +1,3 @@
 package foo
 
-import (
-	"fmt"
-)
-
-func Bar() {
-	fmt.Println("This function lives in an another file!")
-}
+func Bar() { _ = "STUB: not implemented"; return }

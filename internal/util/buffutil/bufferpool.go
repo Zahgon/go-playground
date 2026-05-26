@@ -2,7 +2,6 @@ package buffutil
 
 import (
 	"bytes"
-	"io/fs"
 	"sync"
 )
 
@@ -13,41 +12,16 @@ type BufferPool struct {
 	pool         sync.Pool
 }
 
-func NewBufferPoolWithSize(buffInitSize int) *BufferPool {
-	return &BufferPool{
-		buffInitSize: buffInitSize,
-		pool: sync.Pool{
-			New: func() any {
-				return &bytes.Buffer{}
-			},
-		},
-	}
-}
+func NewBufferPoolWithSize(buffInitSize int) *BufferPool { _ = "STUB: not implemented"; return nil }
 
-func NewBufferPool() *BufferPool {
-	return NewBufferPoolWithSize(defaultInitSize)
-}
+func NewBufferPool() *BufferPool { _ = "STUB: not implemented"; return nil }
 
 func (p *BufferPool) Get() RecyclableBuffer {
-	buff := p.pool.Get().(*bytes.Buffer)
-	buff.Grow(p.buffInitSize)
-
-	return RecyclableBuffer{
-		Buffer: buff,
-		pool:   p,
-	}
+	_ = "STUB: not implemented"
+	return *new(RecyclableBuffer)
 }
 
-func (p *BufferPool) Put(b RecyclableBuffer) {
-	if b.Buffer == nil {
-		panic("BufferPool.Put: RecyclableBuffer was already recycled")
-	}
-
-	b.Reset()
-	p.pool.Put(b.Buffer)
-	b.pool = nil
-	b.Buffer = nil
-}
+func (p *BufferPool) Put(b RecyclableBuffer) { _ = "STUB: not implemented"; return }
 
 type RecyclableBuffer struct {
 	*bytes.Buffer
@@ -55,15 +29,6 @@ type RecyclableBuffer struct {
 	pool *BufferPool
 }
 
-func (b RecyclableBuffer) Closed() bool {
-	return b.Buffer != nil
-}
+func (b RecyclableBuffer) Closed() bool { _ = "STUB: not implemented"; return false }
 
-func (b RecyclableBuffer) Close() error {
-	if b.Buffer == nil || b.pool == nil {
-		return fs.ErrClosed
-	}
-
-	b.pool.Put(b)
-	return nil
-}
+func (b RecyclableBuffer) Close() error { _ = "STUB: not implemented"; return nil }

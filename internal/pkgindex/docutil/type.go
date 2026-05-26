@@ -1,7 +1,6 @@
 package docutil
 
 import (
-	"fmt"
 	"go/ast"
 	"go/token"
 
@@ -29,65 +28,19 @@ type BlockData struct {
 //		bar struct{}
 //	)
 func NewBlockData(specGroup *ast.GenDecl) (BlockData, error) {
-	blockKind, ok := TokenToCompletionItemKind(specGroup.Tok)
-	if !ok {
-		return BlockData{}, fmt.Errorf("unsupported declaration token %q", specGroup.Tok)
-	}
-
-	return BlockData{
-		Decl:    specGroup,
-		Kind:    blockKind,
-		IsGroup: len(specGroup.Specs) > 1,
-	}, nil
+	_ = "STUB: not implemented"
+	return *new(BlockData), nil
 }
 
 // TypeToSymbol returns completion item from type declaration inside block.
 func TypeToSymbol(fset *token.FileSet, block BlockData, spec *ast.TypeSpec) (Symbol, error) {
+	_ = "STUB: not implemented"
 	// Block declarations contain doc inside each child.
-	item := Symbol{
-		Label:           spec.Name.Name,
-		Kind:            block.Kind,
-		InsertTextRules: lsp.PlainTextTextFormat,
-		InsertText:      spec.Name.Name,
-		Documentation:   getTypeDoc(block, spec),
-	}
-
-	isPrimitive := false
-	switch spec.Type.(type) {
-	case *ast.InterfaceType:
-		item.Detail = "interface{...}"
-		item.Kind = lsp.InterfaceCompletion
-	case *ast.StructType:
-		// TODO: prefill struct members
-		item.Detail = "struct{...}"
-		item.InsertText = item.InsertText + "{}"
-		item.Kind = lsp.StructCompletion
-	case *ast.Ident:
-		isPrimitive = true
-	}
-
-	if !isPrimitive {
-		signature, err := PrintDecl(fset, block.Decl)
-		if err != nil {
-			return item, fmt.Errorf("%w (type: %q, pos: %s)", err, item.Label, GetDeclPosition(fset, spec))
-		}
-
-		item.Signature = signature
-	}
-
-	return item, nil
+	return *new(Symbol), nil
 }
 
-func getTypeDoc(block BlockData, spec *ast.TypeSpec) string {
-	g := block.Decl.Doc
-	if block.IsGroup || len(block.Decl.Specs) > 1 {
-		// standalone type declarations are still considered as block.
-		g = spec.Doc
-	}
+// TODO: prefill struct members
 
-	if CommentGroupEmpty(g) {
-		return ""
-	}
+func getTypeDoc(block BlockData, spec *ast.TypeSpec) string { _ = "STUB: not implemented"; return "" }
 
-	return string(FormatCommentGroup(g))
-}
+// standalone type declarations are still considered as block.

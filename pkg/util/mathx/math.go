@@ -6,18 +6,6 @@ type Number interface {
 	constraints.Integer | constraints.Float
 }
 
-func Max[T Number](a, b T) T {
-	if a > b {
-		return a
-	}
+func Max[T Number](a, b T) T { _ = "STUB: not implemented"; return *new(T) }
 
-	return b
-}
-
-func Min[T Number](a, b T) T {
-	if a < b {
-		return a
-	}
-
-	return b
-}
+func Min[T Number](a, b T) T { _ = "STUB: not implemented"; return *new(T) }

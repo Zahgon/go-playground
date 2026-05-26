@@ -1,10 +1,5 @@
 package announcements
 
-import (
-	"errors"
-	"fmt"
-)
-
 // AnnouncementMessagePart represents a part of an announcement message
 type MessagePart struct {
 	Type  string `json:"type" msgpack:"type"` // "link" or "text"
@@ -22,17 +17,4 @@ type Announcement struct {
 	Content      []MessagePart `json:"content" msgpack:"content"`
 }
 
-func (msg Announcement) Validate() error {
-	switch msg.Type {
-	case "info", "error", "warning", "success":
-		break
-	default:
-		return fmt.Errorf("invalid announcement message type: %q", msg.Type)
-	}
-
-	if len(msg.Content) == 0 {
-		return errors.New("missing announcement message content")
-	}
-
-	return nil
-}
+func (msg Announcement) Validate() error { _ = "STUB: not implemented"; return nil }

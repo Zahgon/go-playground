@@ -1,9 +1,7 @@
 package goplay
 
 import (
-	"errors"
 	"net/url"
-	"strconv"
 	"time"
 )
 
@@ -31,13 +29,7 @@ type FmtResponse struct {
 }
 
 // HasError returns error if any occurred
-func (r *FmtResponse) HasError() error {
-	if r.Error == "" {
-		return nil
-	}
-
-	return CompileFailedError{msg: r.Error}
-}
+func (r *FmtResponse) HasError() error { _ = "STUB: not implemented"; return nil }
 
 type CompileRequest struct {
 	Version int
@@ -45,17 +37,7 @@ type CompileRequest struct {
 	Body    []byte
 }
 
-func (r CompileRequest) URLValues() url.Values {
-	if r.Version == 0 {
-		r.Version = DefaultVersion
-	}
-
-	form := make(url.Values, 3)
-	form.Add("version", strconv.Itoa(r.Version))
-	form.Add("withVet", strconv.FormatBool(r.WithVet))
-	form.Add("body", string(r.Body))
-	return form
-}
+func (r CompileRequest) URLValues() url.Values { _ = "STUB: not implemented"; return *new(url.Values) }
 
 // CompileEvent represents individual
 // event record in CompileResponse
@@ -74,19 +56,7 @@ type CompileResponse struct {
 }
 
 // GetBody returns response body
-func (cr CompileResponse) GetBody() string {
-	if cr.Body == nil {
-		return ""
-	}
-
-	return *cr.Body
-}
+func (cr CompileResponse) GetBody() string { _ = "STUB: not implemented"; return "" }
 
 // HasError returns error if any occurred
-func (cr *CompileResponse) HasError() error {
-	if cr.Errors == "" {
-		return nil
-	}
-
-	return errors.New(cr.Errors)
-}
+func (cr *CompileResponse) HasError() error { _ = "STUB: not implemented"; return nil }

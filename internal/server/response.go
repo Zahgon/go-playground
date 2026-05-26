@@ -1,15 +1,7 @@
 package server
 
 import (
-	"encoding/json"
-	"errors"
-	"fmt"
 	"net/http"
-	"strings"
-
-	"go.uber.org/zap"
-
-	"github.com/x1unix/go-playground/pkg/goplay"
 )
 
 const maxFilesCount = 10
@@ -19,50 +11,12 @@ type FilesPayload struct {
 }
 
 // Validate checks file name and contents and returns error on validation failure.
-func (p FilesPayload) Validate() error {
-	if len(p.Files) == 0 {
-		return errors.New("empty file list")
-	}
-
-	if len(p.Files) > maxFilesCount {
-		return fmt.Errorf("too many files (max: %d)", maxFilesCount)
-	}
-
-	hasGoFiles := false
-	for name, src := range p.Files {
-		isGoFile, err := goplay.ValidateFilePath(name, true)
-		if err != nil {
-			return err
-		}
-
-		if isGoFile {
-			hasGoFiles = true
-		}
-
-		if len(strings.TrimSpace(src)) == 0 {
-			return fmt.Errorf("empty file %q", name)
-		}
-	}
-
-	if !hasGoFiles {
-		return errNoGoFiles
-	}
-
-	return nil
-}
+func (p FilesPayload) Validate() error { _ = "STUB: not implemented"; return nil }
 
 // HasUnitTests checks whether file list contains any unit test.
 //
 // Note: at the moment, func doesn't check file contents and only check file names.
-func (p FilesPayload) HasUnitTests() bool {
-	for name := range p.Files {
-		if strings.HasSuffix(name, "_test.go") {
-			return true
-		}
-	}
-
-	return false
-}
+func (p FilesPayload) HasUnitTests() bool { _ = "STUB: not implemented"; return false }
 
 // ErrorResponse is error response
 type ErrorResponse struct {
@@ -73,29 +27,13 @@ type ErrorResponse struct {
 }
 
 // NewErrorResponse is ErrorResponse constructor
-func NewErrorResponse(err error) *ErrorResponse {
-	return &ErrorResponse{Error: err.Error(), code: http.StatusInternalServerError}
-}
+func NewErrorResponse(err error) *ErrorResponse { _ = "STUB: not implemented"; return nil }
 
 // Write writes error to response
 func (r *ErrorResponse) Write(w http.ResponseWriter) http.ResponseWriter {
-	w.Header().Add("Content-Type", "application/json")
-	w.WriteHeader(r.code)
-	if err := json.NewEncoder(w).Encode(r); err != nil {
-		zap.S().Error(err)
-	}
-	return w
+	_ = "STUB: not implemented"
+	return *new(http.ResponseWriter)
 }
 
 // WriteJSON encodes object as JSON and writes it to stdout
-func WriteJSON(w http.ResponseWriter, i interface{}) {
-	data, err := json.Marshal(i)
-	if err != nil {
-		NewErrorResponse(err).Write(w)
-		return
-	}
-
-	w.Header().Add("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	_, _ = w.Write(data)
-}
+func WriteJSON(w http.ResponseWriter, i interface{}) { _ = "STUB: not implemented"; return }

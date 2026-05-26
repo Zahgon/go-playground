@@ -17,14 +17,6 @@ func init() {
 	}
 }
 
-func parseGoVersion(input string) string {
-	matches := goVersionRegEx.FindStringSubmatch(input)
-	if len(matches) > 1 {
-		return matches[1]
-	}
-	return ""
-}
+func parseGoVersion(input string) string { _ = "STUB: not implemented"; return "" }
 
-func generateGoMod(modName string) []byte {
-	return []byte("module " + modName + "\ngo " + goVersion)
-}
+func generateGoMod(modName string) []byte { _ = "STUB: not implemented"; return nil }

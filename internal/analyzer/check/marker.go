@@ -8,33 +8,13 @@ import (
 )
 
 func errorsListToMarkers(errList scanner.ErrorList) []lsp.Diagnostic {
-	markers := make([]lsp.Diagnostic, 0, len(errList))
-	for _, err := range errList {
-		// token.Position uses 1-based line/column indexes while LSP positions are 0-based.
-		startLine := normalizeLSPPosition(err.Pos.Line - 1)
-		startColumn := normalizeLSPPosition(err.Pos.Column - 1)
-		endColumn := normalizeLSPPosition(err.Pos.Column)
-
-		markers = append(markers, lsp.Diagnostic{
-			Severity: lsp.SeverityError,
-			Message:  err.Msg,
-			Range: lsp.Range{
-				Start: lsp.Position{Line: startLine, Character: startColumn},
-				End:   lsp.Position{Line: startLine, Character: endColumn},
-			},
-		})
-	}
-
-	return markers
+	_ = "STUB: not implemented"
+	return nil
 }
 
-func normalizeLSPPosition(value int) uint32 {
-	if value < 0 {
-		return 0
-	}
+// token.Position uses 1-based line/column indexes while LSP positions are 0-based.
 
-	return uint32(value)
-}
+func normalizeLSPPosition(value int) uint32 { _ = "STUB: not implemented"; return 0 }
 
 // Result is result
 type Result struct {

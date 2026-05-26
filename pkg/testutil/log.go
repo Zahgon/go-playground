@@ -1,12 +1,10 @@
 package testutil
 
 import (
-	"go.uber.org/zap"
-	"go.uber.org/zap/zaptest"
 	"testing"
+
+	"go.uber.org/zap"
 )
 
 // GetLogger returns test zap logger instance for test
-func GetLogger(t *testing.T) *zap.SugaredLogger {
-	return zaptest.NewLogger(t).Sugar()
-}
+func GetLogger(t *testing.T) *zap.SugaredLogger { _ = "STUB: not implemented"; return nil }
